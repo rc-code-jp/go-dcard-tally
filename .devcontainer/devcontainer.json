@@ -1,0 +1,18 @@
+{
+  "dockerComposeFile": "../compose.yml",
+  "service": "app",
+  "workspaceFolder": "/app",
+  "customizations": {
+    "vscode": {
+      "settings": {},
+      "extensions": [
+        "EditorConfig.EditorConfig",
+        "mosapride.zenkaku",
+        "golang.Go",
+        "GitHub.copilot",
+        "wmaurer.change-case",
+        "streetsidesoftware.code-spell-checker"
+      ]
+    }
+  }
+}

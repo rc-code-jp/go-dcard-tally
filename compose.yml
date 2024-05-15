@@ -1,0 +1,19 @@
+services:
+  # Golang App
+  app:
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - type: bind
+        source: .
+        target: /app
+      - type: volume
+        source: app-logs
+        target: /logs
+    tty: true
+# ボリュームの定義
+volumes:
+  app-logs:
