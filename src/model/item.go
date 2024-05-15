@@ -1,7 +1,8 @@
 package model
 
 type Item struct {
-	Date   string
-	Amount int
-	Place  string
+	Date     string
+	Amount   int
+	Place    string
+	FileType string
 }
