@@ -6,12 +6,13 @@ import (
 	"go-dcard-tally/src/model"
 	"path/filepath"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 )
 
 func main() {
-	fmt.Println("Start...")
+	fmt.Println("******集計を開始******")
 
 	// 全てのファイルを取得
 	files := lib.FilesInDir("./src/assets/csv")
@@ -77,16 +78,37 @@ func main() {
 		}
 	}
 
+	// 月毎に集計するためにソート
+	sort.Slice(items, func(i, j int) bool {
+		return items[i].Date < items[j].Date
+	})
+
 	// 集計
-	var total int
+	total := 0
+	perMonth := make(map[string]int)
 	for _, item := range items {
-		fmt.Println(item)
 		total += item.Amount
+		key := item.Date[:7]
+		if _, exists := perMonth[key]; !exists {
+			perMonth[key] = 0
+		} else {
+			perMonth[key] += item.Amount
+		}
 	}
 
-	fmt.Println("Total:", total)
+	// 先頭と末尾の日付を取得
+	startDate := items[0].Date
+	endDate := items[len(items)-1].Date
+	fmt.Println(startDate + "から" + endDate + "まで")
 
-	fmt.Println("Total items:", len(items))
+	// 全体
+	fmt.Println("合計:", lib.FormatCurrency(total)+"円")
+	fmt.Println("行数:", len(items))
 
-	fmt.Println("End...")
+	// 月毎
+	for key, value := range perMonth {
+		fmt.Println(key+":", lib.FormatCurrency(value)+"円")
+	}
+
+	fmt.Println("******正常終了******")
 }
